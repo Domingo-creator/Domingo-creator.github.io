@@ -1,0 +1,33 @@
+* {
+    box-sizing: border-box;
+  }
+  body {
+    font-family: 'Lato', sans-serif;
+    color: #4c4c4c;
+    background: #f8fdf3;
+    background-color: rgba(49, 49, 92, 0.397);
+  }
+
+  .wrapper {
+    width: 100%;
+    max-width: 900px;
+    margin: 2.5em auto;
+    border-radius: .35em;
+    background: #fcfcfc;
+    overflow: hidden;
+    box-shadow: 0 0 26px rgba(0,0,0, .13);
+    background-color: rgba(246, 247, 252, 0.795);
+  }
+
+  .submit-field {
+    text-align: right;
+  }
+
+  #search-bar {
+    text-align: right;
+  }
+  
+  #pagination-buttons {
+    text-align: center;
+  }
+
