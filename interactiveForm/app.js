@@ -270,11 +270,17 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         //remove all instances of 'invalid-input' class
         $('form').find('.invalid-input').removeClass('invalid-input');
-        checkValidInputs();
+        
+        if(hasValidInputs()) {
+            alert('Registration is complete!  See you there');
+        } else {
+            alert('Registration failed.  Please correct highlighted fields');
+        }
     });
 
     //if any checks fail, mark the field as invalid input 
-    function checkValidInputs () {
+    function hasValidInputs () {
+        console.log('in hasValidInputs');
         //Make sure name has only letters
         if(!/^[a-z\s]+$/i.test($('#name:input').val()) /* contains any non letters))*/ ) {
             $('#name').prev().prev().addClass('invalid-input');
@@ -325,8 +331,16 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!/^20[2-3][0-9]$/i.test($('#expiration-year:input').val())) {
                 $('#expiration-year').prev().prev().addClass('invalid-input');    
             }
-
         }
+        //if no invalid-inputs exist, return true.  else return false
+        console.log("document.querySelector('invalid-inpue') = " + document.querySelector('.invalid-input'));
+        if( document.querySelector('.invalid-input') === null) {
+            return true;
+        } else {
+            return false;
+        }
+
+        
     }
     
     

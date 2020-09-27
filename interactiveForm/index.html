@@ -11,130 +11,136 @@
     <body>
         <div id="top-headline">
         <p class="info-headline">Register for</p>
-        <h1>Full Stack Conf</h1>
+        <h1>Full Stack Conference</h1>
         </div>
 
         <form id="wrapper">
-            <div id="basic-info">
-                <p class="info-headline">Basic Info</p>
-            
-                <label for="name">Name:</label><br>
-                <input type="text" id="name" name="name">
-                <br>
-
-                <label for="email">Email:</label><br>
-                <input type="email" id="email" name="email"> 
-                <br>
-
-                <label for="job-role">Job Role:</label><br>
-                <select id="job-role">
-                    <option value="full-time-javascript-developer">Full Time Javascript Developer</option>
-                </select>
-                <br>
-            </div>
-            <div id="tshirt-info">
-                <p class="info-headline">T-shirt Info</p>
-
-                <label for="size">Size:</label><br>
-                <select id="size">
-                    <option value="default">Choose Shirt Size</option>
-                    <option value="small">Small</option>
-                    <option value="medium">Medium</option>
-                    <option value="large">Large</option>
-                </select><span></span><br>
-
+            <div id="register-info-wrapper">
+                <div id="basic-info">
+                    <p class="info-headline">Basic Info</p>
                 
-                <label for="design">Design:</label><br>
-                <select id="design" disabled="disabled">
-                    <option value="default">Choose Design</option>
-                    <option value="js-parts">JS Parts</option>
-                    <option value="i-heart-js">I ♥ JS</option>
-                </select><br>
+                    <label for="name">Name:</label><br>
+                    <input type="text" id="name" name="name">
+                    <br>
 
-                <label for="color">Color:</label><br>
-                <select id="color" disabled="disabled">
-                    <option value="default">Choose Color</option>
-                    <option value="blue">Blue</option>
-                    <option value="red">Red</option>
-                    <option value="yellow">Yellow</option>
-                    <option value="purple">Purple</option>
-                    <option value="green">Green</option>
-                </select>
-                <span></span>
-            </div>
-            <div id="register-for-activities">
-                <p class="info-headline">Register For Activities</p>
+                    <label for="email">Email:</label><br>
+                    <input type="email" id="email" name="email"> 
+                    <br>
 
-                <input type="checkbox" id="main-conference">
-                <span>Main Conference --- $200</span><br>
+                    <label for="job-role">Job Role:</label><br>
+                    <select id="job-role">
+                        <option value="full-time-javascript-developer">Full Time Javascript Developer</option>
+                    </select>
+                    <br>
+                </div>
+                <div id="tshirt-info">
+                    <p class="info-headline">T-shirt Info</p>
 
-                <input type="checkbox" id="js-frameworks-workshop">
-                <span>Javascript Frameworks Workshop --- Tuesday 9am-12pm, $100</span><br>
+                    <label for="size">Size:</label><br>
+                    <select id="size">
+                        <option value="default">Choose Shirt Size</option>
+                        <option value="small">Small</option>
+                        <option value="medium">Medium</option>
+                        <option value="large">Large</option>
+                    </select><span></span><br>
 
-                <input type="checkbox" id="js-libraries-workshop">
-                <span>Javascript Libraries Workshop --- Tuesday 1pm=4pm, $100</span><br>
+                    
+                    <label for="design">Design:</label><br>
+                    <select id="design" disabled="disabled">
+                        <option value="default">Choose Design</option>
+                        <option value="js-parts">JS Parts</option>
+                        <option value="i-heart-js">I ♥ JS</option>
+                    </select><br>
 
-                <input type="checkbox" id="express-workshop">
-                <span>Express Workshop --- Tuesday 9am-12pm, $100</span> <br>
-                
-                <input type="checkbox" id="node-js-workshop">
-                <span>Node.js Workshop --- Tuesday 1pm-4pm, $100</span><br>
-                
-                <input type="checkbox" id="build-tools-workshop">
-                <span>Build Tools Workshop --- Wednesday 9am-12pm, $100</span><br>
-                
-                <input type="checkbox" id="npm-workshop">
-                <span>npm Workshop --- Wednesday 12pm-4pm, $100</span><br><br>
+                    <label for="color">Color:</label><br>
+                    <select id="color" disabled="disabled">
+                        <option value="default">Choose Color</option>
+                        <option value="blue">Blue</option>
+                        <option value="red">Red</option>
+                        <option value="yellow">Yellow</option>
+                        <option value="purple">Purple</option>
+                        <option value="green">Green</option>
+                    </select>
+                    <span></span>
+                </div>
+                <div id="register-for-activities">
+                    <p class="info-headline">Register For Activities</p>
 
-                <class total style="text-decoration: underline;">Total Amount Due:</class>
-                &nbsp&nbsp&nbsp&nbsp&nbsp$<span id="totalDue"></span>
+                    <input type="checkbox" id="main-conference">
+                    <span>Main Conference --- $200</span><br>
+
+                    <input type="checkbox" id="js-frameworks-workshop">
+                    <span>Javascript Frameworks Workshop --- Tuesday 9am-12pm, $100</span><br>
+
+                    <input type="checkbox" id="js-libraries-workshop">
+                    <span>Javascript Libraries Workshop --- Tuesday 1pm=4pm, $100</span><br>
+
+                    <input type="checkbox" id="express-workshop">
+                    <span>Express Workshop --- Tuesday 9am-12pm, $100</span> <br>
+                    
+                    <input type="checkbox" id="node-js-workshop">
+                    <span>Node.js Workshop --- Tuesday 1pm-4pm, $100</span><br>
+                    
+                    <input type="checkbox" id="build-tools-workshop">
+                    <span>Build Tools Workshop --- Wednesday 9am-12pm, $100</span><br>
+                    
+                    <input type="checkbox" id="npm-workshop">
+                    <span>npm Workshop --- Wednesday 12pm-4pm, $100</span><br><br>
+
+                    <class total style="text-decoration: underline;">Total Amount Due:</class>
+                    &nbsp&nbsp&nbsp&nbsp&nbsp$<span id="totalDue"></span>
+                </div>
             </div>
             <div id="payment-info">
                 <p class="info-headline">Payment Info</p>
- 
-                <label for="payment-type">I'm going to pay with:</label><br>
-                <select id="payment-type">
-                    <option value="default">Select Payment Method</option>
-                    <option value="cash">Cash</option>
-                    <option value="credit">Credit Card</option>
-                </select>
-                <br>
+                <div id="payment-type-wrapper">
+                    <label for="payment-type">I'm going to pay with:</label><br>
+                    <select id="payment-type">
+                        <option value="default">Select Payment Method</option>
+                        <option value="cash">Cash</option>
+                        <option value="credit">Credit Card</option>
+                    </select>
+                </div>
 
                 <div id="payment-field" style="display: none;">
-                    <label for="card-number">Card Number:</label><br>
-                    <input type="text" id="card-number" name=card-number>
-                    <br>
+                    <div id="card-info">
+                        <label for="card-number">Card Number:</label><br>
+                        <input type="text" id="card-number" name=card-number>
+                        <br>
 
-                    <label for="zip-code">Zip Code:</label><br>
-                    <input type="text" id="zip-code" name="zip-code">
-                    <br>
+                        <label for="zip-code">Zip Code:</label><br>
+                        <input type="text" id="zip-code" name="zip-code">
+                        <br>
 
-                    <label for="ccv">CCV:</label><br>
-                    <input type="text" id="ccv" name="ccv">
-                    <br>
-                
-                    <label for="expiration-date">Expiration Date:</label><br>
-                    <select id="expiration-date">
-                        <option value="default">Month</option>
-                        <option value="January">01    January</option>
-                        <option value="February">02    February</option>
-                        <option value="March">03    March</option>
-                        <option value="April">04    April</option>
-                        <option value="May">05    May</option>
-                        <option value="June">06    June</option>
-                        <option value="July">07    July</option>
-                        <option value="August">08    August</option>
-                        <option value="September">09    September</option>
-                        <option value="October">10    October</option>
-                        <option value="November">11    November</option>
-                        <option value="December">12    December</option>
-                    </select>
-                    <br>
-                
-                    <label for="expiration-year">Year:</label><br>
-                    <input type="number" id="expiration-year" name="expiration-year"
-                           min="2020" max="3000">
-                    <br>
+                        <label for="ccv">CCV:</label><br>
+                        <input type="text" id="ccv" name="ccv">
+                        <br>
+                    </div>
+                    <div id="expiration-info">
+                        <label for="expiration-date">Expiration Date:</label><br>
+                        <select id="expiration-date">
+                            <option value="default">Month</option>
+                            <option value="January">01    January</option>
+                            <option value="February">02    February</option>
+                            <option value="March">03    March</option>
+                            <option value="April">04    April</option>
+                            <option value="May">05    May</option>
+                            <option value="June">06    June</option>
+                            <option value="July">07    July</option>
+                            <option value="August">08    August</option>
+                            <option value="September">09    September</option>
+                            <option value="October">10    October</option>
+                            <option value="November">11    November</option>
+                            <option value="December">12    December</option>
+                        </select>
+                        <br>
+                    
+                        <label for="expiration-year">Year:</label><br>
+                        <input type="number" id="expiration-year" name="expiration-year"
+                            min="2020" max="3000">
+                        <br>
+                    </div>
+
                 </div>
             </div>
             
