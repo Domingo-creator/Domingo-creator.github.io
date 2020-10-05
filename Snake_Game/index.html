@@ -4,22 +4,32 @@
         <link href = "css/style.css" rel = "stylesheet"> 
     </head>
     <body>
-        <div class="game-title">Snake Game</div>
         <div class="new-game-window">
             <p class="game-result"></p>
             <p>Would you like to start a new game?</p>
             <button class="new-game-button">New Game</button>
         </div>
         <div class="pause-window hidden"><h1>Pause</h1></div>
+        <div class="instructions">
+            <p style="text-decoration: underline;">Controls:</p>
+            <label for="direction-controls">Change Direction:</label>
+                <li>Up: ArrowUp or W</li>
+                <li>Left: ArrowLeft or A</li>
+                <li>Down: ArrowDown or S</li>
+                <li>Right: ArrowRight or D</li>
+            <p>Pause/Start Game:  Enter</p>
+            <p>Objective: Eat as many Benjy's as you can before dying.  Death will occur when you collide with either a wall or your own body.</p>
+        </div>
         <div class="game-window">
             <div class="scoreboard">
+                <div class="game-title">EAT THE BENJYS!!!</div>
                 <div class="level-wrapper">
                     <label for="level">Level: </label>
-                    <div class="level"></div>
+                    <span class="level"></span>
                 </div>
                 <div class="score-wrapper">
                     <label for="score">Score: </label>
-                    <div class="score"></div>
+                    <span class="score"></span>
                 </div>
             </div>
             <div class="game-grid-wrapper">
