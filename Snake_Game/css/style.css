@@ -96,15 +96,15 @@
     width: 73vh;
     display: grid;
     list-style: none;
-    grid-template-columns: auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto;
-    grid-template-rows: auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto;
-    
+    grid-template-columns: 5.88% 5.88% 5.88% 5.88% 5.88% 5.88% 5.88% 5.88% 5.88% 5.88% 5.88% 5.88% 5.88% 5.88% 5.88% 5.88% 5.88%;
+    grid-template-rows: 5.88% 5.88% 5.88% 5.88% 5.88% 5.88% 5.88% 5.88% 5.88% 5.88% 5.88% 5.88% 5.88% 5.88% 5.88% 5.88% 5.88%;
 } 
 
 .game-grid-space {
     background-color: blue;
     min-width: 5.88%;
     min-height: 5.88%;
+    text-align: center;
 }
 
 .occupied {
@@ -112,5 +112,11 @@
 }
 
 .has-fruit {
-    background-color: red;
+    background-color: white;
+}
+
+.face-image {
+    max-height: 100%;
+    max-width: 100%;
+
 }
