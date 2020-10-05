@@ -44,14 +44,20 @@ document.addEventListener('DOMContentLoaded', () => {
             let hasFruit = document.querySelector('.has-fruit');
             if (hasFruit) {
                 hasFruit.classList.remove('has-fruit');
+                hasFruit.innerHTML = "";
             }
-            occupiedSpaces.forEach( occupiedSpace => occupiedSpace.classList.remove('occupied'))
+            occupiedSpaces.forEach( occupiedSpace => {
+                console.log(occupiedSpace.innerHTML)
+                occupiedSpace.innerHTML = "";
+                occupiedSpace.classList.remove('occupied');
+            });
             
             //start snake on row 9, column 3.  make 3 spaces long --> index 139-141.
             for (let i = 0; i < 3; i++) {
                 gameScreen.children[139+i].classList.add('occupied');
                 this.snakeBody.push(139+i);
             }
+            gameScreen.children[141].innerHTML = `<img src="https://domingo-creator.github.io/Snake_Game/tinas_face.png" class='face-image' />`
             //Put intial fruit on board at row 9 column 14 - [8,13]
             this.placeFruit(150);
         }
@@ -83,9 +89,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 gameSession.snakeBody.push(nextHeadIndex);
                 gameSession.checkCollision();
+
                 if (gameSession.isAlive) {
                     gameScreen.children[nextHeadIndex].classList.add('occupied');
+
+                     //remove face from previous head and add to new head
+                    gameScreen.children[gameSession.snakeBody[gameSession.snakeBody.length - 2]].innerHTML = '';
+                    gameScreen.children[nextHeadIndex].innerHTML = `<img src="https://domingo-creator.github.io/Snake_Game/tinas_face.png" class='face-image' />` 
+                 
                 }
+
+                
             }
             
         }
@@ -128,6 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (snakeHead === this.hasFruit) {
                 this.incrementScore();
                 gameScreen.children[this.hasFruit].classList.remove('has-fruit');
+                gameScreen.children[this.hasFruit].innerHTML = "";
                 this.placeFruit();
             }
 
@@ -167,8 +182,15 @@ document.addEventListener('DOMContentLoaded', () => {
         /******* Game functions *************/
         //place fruit in random space if index is not defined
         placeFruit( index = Math.floor(Math.random() * gameScreen.children.length) ) {
+            for(let i = 0; i < this.snakeBody.length; i++) {
+                if ( index === this.snakeBody[i]) {
+                    index = Math.floor(Math.random() * gameScreen.children.length)
+                }
+            }
             /**** Check to make sure fruit is not placed on snake body ******/
-            gameScreen.children[index].classList.add('has-fruit'); 
+            gameScreen.children[index].classList.add('has-fruit');
+            //add image to li
+            gameScreen.children[index].innerHTML = `<img src="https://domingo-creator.github.io/Snake_Game/bens_face.png" class='face-image' />` 
             this.hasFruit = index;
         }
 
