@@ -106,13 +106,15 @@
 /*********** Game Screen ******************/
 .game-grid {
     position: relative;
-    left: 6%;
-    right: 6%;
+    left: 10%;
+    right: 10%;
     margin-top: 0%;
-    height:92%;
-    width: 92vh;
+    padding-left: 0%;
+    height:90%;
+    width: 90vh;
     display: grid;
     list-style: none;
+    border: black solid 1vh;
     grid-template-columns: 5.88% 5.88% 5.88% 5.88% 5.88% 5.88% 5.88% 5.88% 5.88% 5.88% 5.88% 5.88% 5.88% 5.88% 5.88% 5.88% 5.88%;
     grid-template-rows: 5.88% 5.88% 5.88% 5.88% 5.88% 5.88% 5.88% 5.88% 5.88% 5.88% 5.88% 5.88% 5.88% 5.88% 5.88% 5.88% 5.88%;
 } 
