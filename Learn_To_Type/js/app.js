@@ -1,19 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
   const gameScreen = document.querySelector('.word-display');
+  const gameStats = document.querySelector('.game-stats');
   const timer = document.querySelector('.timer');
   const healthBar = document.querySelector('.health-bar');
   const charToGo = document.querySelector('.characters-left');
   const charToGoDisplay = document.querySelector('.characters-left-wrapper');
-  const roundEndWindow = document.querySelector('.round-end-window');
-  const roundEndMessage = document.querySelector('.round-end-window p');
-  const roundEndButtons = document.querySelectorAll('.round-end-window button');
+  const gameType = document.querySelector('.game-type');
   const keyboard = document.querySelectorAll('.keyboard .key');
   const toggleHint = document.querySelector('.keyboard-hints-toggle input');
   const hintDisplay = document.querySelector('.keyboard-hints-display');
   const hintKeyboard = document.querySelectorAll('.keyboard-hints-display .key');
 
   /**********************  Game Data *******************************/
-  const numGames = 4;
+  const numGames = 5;
   const paragraphs = [
     {
         type: 1,        //short sentences
@@ -130,47 +129,261 @@ document.addEventListener('DOMContentLoaded', () => {
           this.currentCharIndex;
           this.showHints = true;
           this.timer;
+          this.maxTimer = 60;
+          this.healthOn = 'ON';
           this.currentHealth;
           this.maxHealth = 20;
           this.phrasesLeft;
           this.usedPhrases = [];
+          this.inMenuScreen;
+          this.menuPointer;
+          this.menuPointerIndex;
+          this.subMenuPointer;
+          this.subMenuType;
+          this.gameCode = 0;  // 0 = randomized games
+          this.lastGameCode = 0;
+
       }
 
-      //Start Game
-      startRound() {
-        // get new game code from previous one if not first round  
-        let newGameCode =  Math.floor(Math.random() * numGames);
-        if (this.gameCode) {
-            while (this.gameCode === newGameCode){
-                newGameCode =  Math.floor(Math.random() * numGames);
+      /************************ Menu Functions ************************/
+      // Start Screen
+      runStartScreen() {
+          gameType.textContent = "";
+          gameStats.classList.add('hidden');
+          let gameCodeString;
+          switch (this.gameCode) {
+              case 0:
+                gameCodeString = "Random Game Type";
+                break;
+              case 1:
+                gameCodeString = "Short Sentence Scramble";
+                break;
+              case 2:
+                gameCodeString = "The Long Type";
+                break;
+              case 3:
+                gameCodeString = "Key Attack";
+                break;
+              case 4:
+                gameCodeString = "Word Blitz";
+                break;    
+          }
+          gameScreen.innerHTML =   `<div class='game-title'>Learn To Type</div>
+                                    <ul class='start-screen-menu'>
+                                        <li>Start Game</li>
+                                        <li>Select Game Type</li>
+                                        <li>Options</li>
+                                    </ul>
+
+                                    <div class='current-game-options'>
+                                        <div>Game Type: ${gameCodeString}</div>
+                                        <div>Health: ${this.healthOn}</div>
+                                        <div>Timer: ${this.maxTimer}</div>
+                                    `
+            this.menuPointer = document.querySelector('.start-screen-menu');
+            this.menuPointerIndex = 0;
+            this.inMenuScreen = true;
+            this.menuPointer.children[this.menuPointerIndex].classList.add('highlight');
+      }
+
+      changeMenuPointer( keyValue ) {
+        if ( keyValue === 'ArrowUp') {
+            if (this.subMenuType === 'Health') {
+                if(this.subMenuPointer.textContent === 'ON') {
+                    this.subMenuPointer.textContent = 'OFF'
+                } else {
+                    this.subMenuPointer.textContent = 'ON'
+                }
+                this.healthOn = this.subMenuPointer.textContent;
+            } else if(this.subMenuType === 'Timer') {
+                if(this.subMenuPointer.textContent < 90) { 
+                    this.subMenuPointer.textContent = parseInt(this.subMenuPointer.textContent) + 10;
+                    
+                } else {
+                    this.subMenuPointer.textContent = '\u221e'; //infinity
+                }
+                this.maxTimer = this.subMenuPointer.textContent;
+            }    
+            else {
+                this.menuPointer.children[this.menuPointerIndex].classList.remove('highlight');
+                if (this.menuPointerIndex === 0) {
+                    this.menuPointerIndex = this.menuPointer.children.length - 1;
+                } else {
+                    this.menuPointerIndex--;
+                }
+                this.menuPointer.children[this.menuPointerIndex].classList.add('highlight');
+            }
+        } 
+
+        if ( keyValue === 'ArrowDown') {
+            if (this.subMenuType === 'Health') {
+                if(this.subMenuPointer.textContent === 'ON') {
+                    this.subMenuPointer.textContent = 'OFF'
+                } else {
+                    this.subMenuPointer.textContent = 'ON'
+                }
+                this.healthOn = this.subMenuPointer.textContent;
+            } else if(this.subMenuType === 'Timer') {
+                if(this.subMenuPointer.textContent > 30) { 
+                    this.subMenuPointer.textContent = parseInt(this.subMenuPointer.textContent) - 10;
+                }
+                this.maxTimer = this.subMenuPointer.textContent;
+            }    
+            else {
+                this.menuPointer.children[this.menuPointerIndex].classList.remove('highlight');
+                if (this.menuPointerIndex === this.menuPointer.children.length - 1) {
+                    this.menuPointerIndex = 0;
+                } else {
+                    this.menuPointerIndex++;
+                }
+                this.menuPointer.children[this.menuPointerIndex].classList.add('highlight');
             }
         }
-        this.gameCode = newGameCode;
-        charToGoDisplay.classList.add('hidden');
+
+        if ( keyValue === 'Enter') {
+            switch (this.menuPointer.children[this.menuPointerIndex].textContent) {
+                case 'Start Game':
+                case 'Try Again':
+                    this.inMenuScreen = false;
+                    this.startRound()
+                    break;
+                case 'End Game':
+                case 'Back':
+                    this.runStartScreen();
+                    break;
+                case 'Select Game Type':
+                    this.selectGameType();
+                    break;
+                case 'Options': 
+                    this.options();
+                    break;
+                case 'Random Game Type':
+                    this.gameCode = 0;
+                    this.runStartScreen();
+                    break;
+                case 'Short Sentence Scramble':
+                    this.gameCode = 1;
+                    this.runStartScreen();
+                    break;
+                case 'The Long Type':
+                    this.gameCode = 2;
+                    this.runStartScreen();
+                    break;
+                case 'Key Attack':
+                    this.gameCode = 3;
+                    this.runStartScreen();
+                    break;
+                case 'Word Blitz':
+                    this.gameCode = 4;
+                    this.runStartScreen();
+                    break;
+                case `Health: ${this.healthOn}`:
+                    if (this.subMenuType) {
+                        this.subMenuPointer.classList.remove('highlight-2');
+                        this.subMenuType = null;
+                    }  else {
+                        this.adjustHealth();
+                    }
+                    break;
+                case `Timer: ${this.maxTimer}`:
+                    if (this.subMenuType) {
+                        this.subMenuPointer.classList.remove('highlight-2');
+                        this.subMenuType = null;
+                    }  else {
+                        this.adjustTimer();
+                    }
+                    break;
+            }
+
+        }
+      }
+
+      selectGameType() {
+        gameScreen.innerHTML =  `<div class='game-title'>Learn To Type</div>
+                                <label for='select-game-type-menu' class="select-game-type">Select your game type:</label>
+                                <ul class='select-game-type-menu'>
+                                    <li>Random Game Type</li>
+                                    <li>Short Sentence Scramble</li>
+                                    <li>The Long Type</li>
+                                    <li>Key Attack</li>
+                                    <li>Word Blitz</li>
+                                </ul>
+                                `                  
+        this.menuPointer = document.querySelector('.select-game-type-menu');     
+        this.menuPointerIndex = 0;
+        this.menuPointer.children[this.menuPointerIndex].classList.add('highlight');
+      }
+
+      options() {
+        gameScreen.innerHTML =  `<div class='game-title'>Learn To Type</div>
+                                <label for='game-options-menu' class="game-options">Game Options:</label>
+                                <ul class='game-options-menu'>
+                                    <li>Health: <span class="health-value">${this.healthOn}<span></li>
+                                    <li>Timer: <span class="timer-value">${this.maxTimer}</span></li>
+                                    <li>Back</li>
+                                </ul>
+                                `
+        this.menuPointer = document.querySelector('.game-options-menu');     
+        this.menuPointerIndex = 0;
+        this.menuPointer.children[this.menuPointerIndex].classList.add('highlight');             
+      }
+
+      adjustHealth() {
+        this.subMenuPointer = document.querySelector('.health-value');
+        this.subMenuPointer.classList.add('highlight-2');
+        this.subMenuType = 'Health';
+      }
+
+      adjustTimer() {
+        this.subMenuPointer = document.querySelector('.timer-value');
+        this.subMenuPointer.classList.add('highlight-2');
+        this.subMenuType = 'Timer';
+      }
+
+      /******************* In Game Functions ************************/
+      //Start Round
+      startRound() {
+        // get new game code from previous one if not first round  
+        let newGameCode =  Math.ceil(Math.random() * (numGames - 1));
+        if (this.gameCode === 0) {
+            if(this.lastGameCode === 0  || this.lastGameCode === newGameCode) {
+                while (this.lastGameCode === newGameCode){
+                    newGameCode =  Math.ceil(Math.random() * (numGames - 1));
+                }
+            }
+            this.lastGameCode = newGameCode;
+        }
+        if (this.gameCode !== 0) {
+        this.lastGameCode = this.gameCode;
+        }
+        gameStats.classList.remove('hidden');
+        charToGoDisplay.classList.remove('hidden');
         this.usedPhrases = [];
-        this.startTimer(60);
+        this.startTimer(this.maxTimer);
         this.resetHealth();
-        switch(this.gameCode) {
-            case 0:             // Short Sentences
+        switch(this.lastGameCode) {
+            case 1:             // Short Sentences
+                gameType.textContent = 'Short Sentence Scramble'
                 this.paragraphType = 0;
                 this.phrasesLeft = 5;
-                charToGoDisplay.classList.remove('hidden');
                 this.nextParagraph()
                 break;
-            case 1:             // Long Paragraph
+            case 2:             // Long Paragraph
+                gameType.textContent = 'The Long Type'
+                charToGoDisplay.classList.add('hidden');
                 this.paragraphType = 1;
                 this.phrasesLeft = 1;
                 this.nextParagraph()
                 break;
-            case 2:             // Key Attack
+            case 3:             // Key Attack
+                gameType.textContent = 'Key Attack'
                 this.phrasesLeft = 30;
-                charToGoDisplay.classList.remove('hidden');
                 this.getRandomKey();
                 break;
-            case 3:             // words
+            case 4:             // words
+                gameType.textContent = 'Word Blitz'
                 this.paragraphType = 2;
                 this.phrasesLeft = 10;
-                charToGoDisplay.classList.remove('hidden');
                 this.nextParagraph();
                 break;
         }
@@ -228,11 +441,11 @@ document.addEventListener('DOMContentLoaded', () => {
       printParagraph() {
         gameScreen.innerHTML = "";
         for ( let i = 0; i <  this.displayText.length; i++) {
-            switch (this.gameCode) {
-                case 2:
+            switch (this.lastGameCode) {
+                case 3:
                     gameScreen.innerHTML = `<div class="game-screen-large-character">${this.displayText}</div>`;
                     break;
-                case 3:
+                case 4:
                     gameScreen.innerHTML += `<span class="game-screen-letter large">${this.displayText[i]}</span>`;
                     break;
                 
@@ -249,12 +462,12 @@ document.addEventListener('DOMContentLoaded', () => {
       checkCurrentChar( keyValue ) {
           if ( keyValue === this.displayText[this.currentCharIndex] ) {
             //Sentence typing
-            if ( this.gameCode === 0 || this.gameCode === 1 || this.gameCode === 3) { 
+            if ( this.lastGameCode === 1 || this.lastGameCode === 2 || this.lastGameCode === 4) { 
                 this.iterateChar();
                 this.nextHint;
             } 
             //Key attack
-            if ( this.gameCode === 2) {
+            if ( this.lastGameCode === 3) {
                 if (this.phrasesLeft > 0) {
                     this.getRandomKey();
                 } else {
@@ -263,7 +476,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
           } else if (keyValue !== 'Shift') {
-              this.decrementHealth();
+              if (this.healthOn === 'ON') {
+                this.decrementHealth();
+              }
           }
       }
 
@@ -295,33 +510,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
       endRound( winOrLose ) {   
         this.stopTimer();
-        // open roundEnd window
         if ( winOrLose === 'win' ) {
-            roundEndMessage.textContent = 'You Win!';
-            roundEndButtons[1].textContent = "Next Round";
-        } else {
-            roundEndMessage.textContent = 'You Lose'
-            roundEndButtons[1].textContent = "Try Again"
+            gameScreen.innerHTML =   `<div class='game-result'>You Win!</div>`;
         }
-        roundEndWindow.classList.remove('hidden');       
+        if ( winOrLose === 'lose') {
+            gameScreen.innerHTML =   `<div class='game-result'>You Win!</div>`;
+        }
+        // open roundEnd window
+        gameScreen.innerHTML +=   `  <ul class='round-end-menu'>
+                                        <li>Try Again</li>
+                                        <li>End Game</li>
+                                    </ul>
+                                    `;
+        this.menuPointer = document.querySelector('.round-end-menu');
+        this.menuPointerIndex = 0;
+        this.inMenuScreen = true;
+        this.menuPointer.children[this.menuPointerIndex].classList.add('highlight');
+
       }
 
       /************************ Process Input *************************/
       // Handle the keyboard inputs.  call function to mirror keys on screen.  if round is in process, pass key to 
       // checkCurrentChar() for processing.  If between rounds, listen for 'Enter key to start round.
       processInput(keyValue) {
-          this.keyDownResponse(keyValue);
-          if ( roundEndWindow.className.includes('hidden')) {
-            this.checkCurrentChar ( keyValue );
+          if ( this.inMenuScreen) {  
+            this.changeMenuPointer ( keyValue);
           } else {
-            // Listen for enter button to start next round  
-            if ( keyValue === 'Enter') {
-                if ( roundEndButtons[1].textContent = "Next Round") {
-                    this.level++;
-                }
-                roundEndWindow.classList.add('hidden');
-                this.startRound();
-            }
+            this.keyDownResponse(keyValue);
+            this.checkCurrentChar ( keyValue );
           }
       }
 
@@ -377,7 +593,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       ///// On screen keyboard keyup visual response
-      keyUpResponse (keyValue) {
+      keyUpResponse (keyValue) {  
         let matchingKeyIndex = this.matchKeyIndex(keyValue);
             if ( matchingKeyIndex.length === 2) {
                 keyboard[matchingKeyIndex[0]].classList.remove('key-down');
@@ -411,18 +627,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
       /*************** Game Stats  ********************/
       //start the timer at startTime
-      startTimer( startTime ) {
-        timer.textContent = startTime;
-        this.timer = setInterval( udateTimer => {
-            if (timer.textContent !== '0') {
-                timer.textContent = parseInt(timer.textContent) - 1;
-            } else {
-                this.endRound('lose');
-            }
-        }, 1000);
+      startTimer() {
+        if ( this.maxTimer !== '\u221e') {
+            timer.textContent = this.maxTimer;
+            this.timer = setInterval( udateTimer => {
+                if (timer.textContent !== '0') {
+                    timer.textContent = parseInt(timer.textContent) - 1;
+                } else {
+                    this.endRound('lose');
+                }
+            }, 1000);
+        } else {
+            timer.textContent = '\u221e';
+        }
       }
 
-      stopTimer() {clearInterval(this.timer);}
+      stopTimer() {
+          if (this.maxTimer !== '\u221e'){
+            clearInterval(this.timer);
+          }
+        }
 
       resetHealth() {
         healthBar.textContent = "";
@@ -473,7 +697,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const gameSession = new Game();
   
   //testing
-  gameSession.startRound();
+  gameSession.runStartScreen();
 
   /*********Event Listeners*********/
   //physical keyboard listener
@@ -482,29 +706,13 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.addEventListener ('keyup', (event) => {
-    gameSession.keyUpResponse(event.key);
+    if (!gameSession.inMenuScreen) {
+        gameSession.keyUpResponse(event.key);
+    }    
   });
 
   //toggle keyboard-hint listener
   toggleHint.addEventListener ('keyup', handleToggleHint, true);
   toggleHint.addEventListener ('change', handleToggleHint, true);
   
-  //Round End Window  
-  roundEndWindow.addEventListener ('click', (event) => {
-    if ( event.target.tagName === 'BUTTON') { 
-        roundEndWindow.classList.add('hidden');
-        switch(event.target.textContent) {
-            case 'End Game':
-                gameSession.endGame();
-                break;
-            case 'Try Again':
-                gameSession.startRound();
-                break;
-            case 'Next Round':
-                gameSession.level++;
-                gameSession.startRound();
-                break;
-        }
-    }
-  });
 });
