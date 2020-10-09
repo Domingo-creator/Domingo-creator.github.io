@@ -173,6 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                         <li>Start Game</li>
                                         <li>Select Game Type</li>
                                         <li>Options</li>
+                                        <li>Instructions</li>
                                     </ul>
 
                                     <div class='current-game-options'>
@@ -257,6 +258,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 case 'Options': 
                     this.options();
                     break;
+                case 'Instructions':
+                    this.instructions();
+                    break;
                 case 'Random Game Type':
                     this.gameCode = 0;
                     this.runStartScreen();
@@ -340,6 +344,19 @@ document.addEventListener('DOMContentLoaded', () => {
         this.subMenuType = 'Timer';
       }
 
+      instructions() {
+        gameScreen.innerHTML =  `<div class='game-title'>Learn To Type</div>
+                                <label for='instructions-menu' class="instructions">Instructions</label>
+                                <p> Type the characters as they are displayed on the screen.  In game modes with multiple characters to type on screen, type the highlighted letter as it appears.</p> 
+                                <p> Use the Keyboard hints on the right if you need help finding the keys.</p>
+                                <ul class='instructions-menu'>
+                                    <li>Back</li>
+                                </ul>
+                                `
+        this.menuPointer = document.querySelector('.instructions-menu');     
+        this.menuPointerIndex = 0;
+        this.menuPointer.children[this.menuPointerIndex].classList.add('highlight');  
+      }
       /******************* In Game Functions ************************/
       //Start Round
       startRound() {

@@ -31,7 +31,7 @@ body {
     font-size: 10vh;
     font-weight: bold;
 }
-.select-game-type, .game-options{
+.select-game-type, .game-options, .instructions{
     font-size: 5vh;
     text-decoration: underline;
 }
