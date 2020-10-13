@@ -410,6 +410,11 @@ document.addEventListener('DOMContentLoaded', () => {
       getRandomKey() {
         // return number between 33 and 126 and use number to represent ascii code
         let randomCode = Math.floor(Math.random() * 94) + 33;
+        while   (   (randomCode > 33 && randomCode < 42 )
+                ||  (randomCode > 90 && randomCode < 97)
+                ||  (randomCode > 122) ) {
+                    randomCode = Math.floor(Math.random() * 94) + 33;
+        }
         this.displayText = String.fromCharCode(randomCode);
         charToGo.textContent = this.phrasesLeft;
         this.phrasesLeft--;
@@ -531,7 +536,7 @@ document.addEventListener('DOMContentLoaded', () => {
             gameScreen.innerHTML =   `<div class='game-result'>You Win!</div>`;
         }
         if ( winOrLose === 'lose') {
-            gameScreen.innerHTML =   `<div class='game-result'>You Win!</div>`;
+            gameScreen.innerHTML =   `<div class='game-result'>You Lose!</div>`;
         }
         // open roundEnd window
         gameScreen.innerHTML +=   `  <ul class='round-end-menu'>
