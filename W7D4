@@ -1,0 +1,31 @@
+****DROPDOWNS******
+-Hovver effects on an elements displays a "dropdown" list of elements
+-In reality, elements are merely hidden until the hover effect changes display : none to display:block
+header {
+    display: flex;
+    flex-direction: row;
+    justify-contnet: space-between;
+}
+
+ .dropdown {
+     width: 200px
+     font-size: 30px
+ }
+
+ ul {
+     display: none;
+     position: absolute;
+     top: 30px
+ }
+
+ .dropdown:hover ul {
+    display: block
+ }
+
+ li:hover {
+     background-color: gray;
+     cursor: pointer;
+ }
+
+
+ 
