@@ -2296,6 +2296,7 @@ input, select, textarea {
 
 	.project-links {
 		min-width: 40vw;
+		min-height: 350px;
 		/* width: 80% !important; */;
 	}
 
@@ -2417,8 +2418,16 @@ input, select, textarea {
 
 	}
 
+	.about-me > div {
+		text-align: center;
+		margin-right: 38px;
+	}
+
+	.about-me > div > a {
+		margin-right: -38px;
+	}
 	.about-me a {
-		/* margin-bottom: -50vh; */
+		margin-bottom: -50vh;
 	}
 
 	.link-icon {
