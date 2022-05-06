@@ -2261,7 +2261,10 @@ input, select, textarea {
 /* Intro */
 
 	#intro {
-		background: url("images/overlay.png"), url("../../images/intro.jpg");
+		/* background: url("images/overlay.png"), url("../../images/intro.jpg"); */
+		background: url("images/fulls/bay_bridge.jpg"), url("../../images/fulls/bay_bridge.jpg");
+		/* background: url("images/fulls/fire_spinning.jpeg"), url("../../images/fulls/fire_spinning.jpeg"); */
+
 		background-size: 256px 256px, cover;
 		background-attachment: fixed, fixed;
 		background-position: top left, bottom center;
@@ -2274,10 +2277,11 @@ input, select, textarea {
 
 	#one {
 		/* background: url("images/fulls/bay_bridge.jpg"), url("../../images/fulls/bay_bridge.jpg"); */
-		background-color: rgb(44, 42, 42);
-		/* background-size: 256px 256px, cover; */
-		/* background-attachment: fixed, fixed; */
-		/* background-position: top left, center center; */
+		background: url("images/fulls/fire_spinning.jpeg"), url("../../images/fulls/fire_spinning.jpeg");
+		/* background-color: rgb(44, 42, 42); */
+		background-size: 256px 256px, cover;
+		background-attachment: fixed, fixed;
+		background-position: top left, center center;
 		/*ADDED*/
 		display: flex;
 		flex-direction: column;
@@ -2415,6 +2419,7 @@ input, select, textarea {
 		display: flex;
 		align-items: center;
 		flex-direction: column;
+		background-color: #00003499;
 
 	}
 
